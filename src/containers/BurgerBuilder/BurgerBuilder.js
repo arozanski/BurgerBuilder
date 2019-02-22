@@ -17,16 +17,19 @@ const INGREDIENT_PRICES = {
 
 class BuilderBuilder extends Component {
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
+        ingredients: null,
         totalPrice: 5,
         purchaseable: false,
         purchasing: false,
         loading: false
+    }
+
+    componentDidMount = () => {
+        axios.get('/ingredients.json')
+            .then(response => {
+                this.setState({ingredients : response.data})
+            })
+            .catch(error => console.log(error))
     }
 
     purchaseHandler = () => {
@@ -110,6 +113,9 @@ class BuilderBuilder extends Component {
             ...this.state.ingredients
         };
 
+        let burger = this.state.ingredients ? <Burger ingredients={this.state.ingredients}/> : 
+            <p>Fetching ingredients</p>;
+
         let orderSummary = <OrderSummary 
                                 price={this.state.totalPrice.toFixed(2)}
                                 ingredients={this.state.ingredients}
@@ -130,7 +136,7 @@ class BuilderBuilder extends Component {
                     modalClosed={this.purchaseCancelHandler}>
                     {orderSummary}
                 </Modal>
-                <Burger ingredients={this.state.ingredients}/>
+                {burger}
                 <BuildControls 
                     price={this.state.totalPrice}
                     disabled={disabled}

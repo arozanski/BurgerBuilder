@@ -4,11 +4,11 @@ import Button from '../../UI/Button/Button';
 
 class OrderSummary extends Component {
     render () {
-        const ingredientSummary = Object.keys(this.props.ingredients)
+        const ingredientSummary = this.props.ingredients ? Object.keys(this.props.ingredients)
             .map(ingredient => {
                 return this.props.ingredients[ingredient] > 0 ? <li key={ingredient}><span style={{textTransform: "capitalize"}}>
                         {ingredient}</span>: {this.props.ingredients[ingredient]}</li> : null;
-            });
+            }) : null;
 
         return (
             <Aux>
