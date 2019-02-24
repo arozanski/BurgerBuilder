@@ -7,7 +7,7 @@ const checkoutSummary = (props) => {
     const ingredients = props.ingredients ? <Burger ingredients={props.ingredients}/> : null;
     return (
         <div className={classes.CheckoutSummary}>
-            <h1>Your burger: £ {props.price}</h1>
+            <h1>Your burger: £{Number.parseFloat(props.price).toFixed(2)}</h1>
             <div style={{width: '100%', margin: 'auto'}}>
                 {ingredients}
             </div>
