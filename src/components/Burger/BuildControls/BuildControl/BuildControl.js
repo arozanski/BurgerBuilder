@@ -4,7 +4,7 @@ import classes from './BuildControl.module.css';
 const buildControl = (props) => {
     return (
         <div className={classes.BuildControl}>
-            <div className={classes.Label}>{props.label}</div>
+            <div className={classes.Label}>{props.label} - ({props.amount})</div>
             <button 
                 disabled={props.disabled}
                 className={classes.Less}

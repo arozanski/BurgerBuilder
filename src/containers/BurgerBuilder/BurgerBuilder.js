@@ -134,6 +134,7 @@ class BuilderBuilder extends Component {
                 <BuildControls 
                     price={this.state.totalPrice}
                     disabled={disabled}
+                    ingredients={this.state.ingredients}
                     ordered={this.purchaseHandler}
                     purchaseable={this.state.purchaseable}
                     ingredientAdded={this.addIngredientHandler} 

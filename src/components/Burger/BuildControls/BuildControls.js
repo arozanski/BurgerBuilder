@@ -10,13 +10,15 @@ const controls = [
 ];
 
 const buildControls = (props) => {
+    
     return (
         <div className={classes.BuildControls}>
             <p>Current price: £{props.price.toFixed(2)}</p>
-            {controls.map(ctrl => <BuildControl 
+            {props.ingredients && controls.map(ctrl => <BuildControl 
                 key={ctrl.label} 
                 label={ctrl.label}
                 disabled={props.disabled[ctrl.type]}
+                amount={props.ingredients[ctrl.type]}
                 removed={() => props.ingredientRemoved(ctrl.type)} 
                 added={() => props.ingredientAdded(ctrl.type)} />
             )}
