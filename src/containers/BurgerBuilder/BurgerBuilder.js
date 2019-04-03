@@ -37,6 +37,7 @@ class BuilderBuilder extends Component {
 
         queryParams.push('price=' + this.state.totalPrice);
 
+        this.props.onOrderInit();
         this.props.history.push({
             pathname: '/checkout',
             search: '?' + queryParams.join('&')
@@ -104,9 +105,9 @@ class BuilderBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice,
-        error: state.error
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     }
 }
 
@@ -114,7 +115,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (name) => dispatch(actionTypes.addIngredient(name)),
         onIngredientRemoved: (name) => dispatch(actionTypes.removeIngredient(name)),
-        onInitIngredients: () => dispatch(actionTypes.initIngredients())
+        onInitIngredients: () => dispatch(actionTypes.initIngredients()),
+        onOrderInit: () => dispatch(actionTypes.orderInit())
     }
 }
 
