@@ -6,5 +6,6 @@ export {
 
 export {
     orderBurger,
-    orderInit
+    orderInit,
+    fetchOrders
 } from './oder';
