@@ -17,11 +17,7 @@ class BuilderBuilder extends Component {
     }
 
     componentDidMount = () => {
-        // axios.get('/ingredients.json')
-        //     .then(response => {
-        //         this.setState({ingredients : response.data})
-        //     })
-        //     .catch(error => console.log(error))
+        this.props.onInitIngredients();
     }
 
     purchaseHandler = () => {
@@ -48,7 +44,7 @@ class BuilderBuilder extends Component {
     }
 
     updatePurchaseState (ingredients) {
-        const sum = Object.keys(ingredients).map(ingredient => {
+        const sum = Object.keys(ingredients | {}).map(ingredient => {
                 return ingredients[ingredient]
             }).reduce((sum, el) => {
                 return sum + el;
@@ -102,14 +98,16 @@ class BuilderBuilder extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        error: state.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (name) => dispatch(actionTypes.addIngredient(name)),
-        onIngredientRemoved: (name) => dispatch(actionTypes.removeIngredient(name))
+        onIngredientRemoved: (name) => dispatch(actionTypes.removeIngredient(name)),
+        onInitIngredients: () => dispatch(actionTypes.initIngredients())
     }
 }
 
