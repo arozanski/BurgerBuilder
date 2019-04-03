@@ -8,7 +8,7 @@ import axios from '../../axios-orders';
 import Loader from '../../components/UI/Loader/Loader';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionTypes from '../../store/actions/index';
 
 class BuilderBuilder extends Component {
     state = {
@@ -108,8 +108,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (name) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: name}),
-        onIngredientRemoved: (name) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: name})
+        onIngredientAdded: (name) => dispatch(actionTypes.addIngredient(name)),
+        onIngredientRemoved: (name) => dispatch(actionTypes.removeIngredient(name))
     }
 }
 

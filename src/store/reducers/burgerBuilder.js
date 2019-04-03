@@ -1,4 +1,4 @@
-import * as actionTypes from './actions';
+import * as actionTypes from '../actions/actionTypes';
 
 // setup initial redux store state
 const initialState = {
