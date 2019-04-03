@@ -44,13 +44,20 @@ class BuilderBuilder extends Component {
     }
 
     updatePurchaseState (ingredients) {
-        const sum = Object.keys(ingredients | {}).map(ingredient => {
+        let canPurchase = false;
+        let sum = 0;
+
+        if (ingredients) {
+            sum = Object.keys(ingredients).map(ingredient => {
                 return ingredients[ingredient]
             }).reduce((sum, el) => {
                 return sum + el;
             }, 0);
 
-        return sum > 0;
+            canPurchase = sum > 0;
+        }
+
+        return canPurchase;
     }
 
     render () {
