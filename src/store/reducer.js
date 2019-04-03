@@ -3,10 +3,10 @@ import * as actionTypes from './actions';
 // setup initial redux store state
 const initialState = {
     ingredients: {
-        salad: 0,
-        bacon: 0,
-        meat: 0,
-        cheese: 0
+        salad: 1,
+        bacon: 1,
+        meat: 1,
+        cheese: 1
     },
     totalPrice: 3
 }
