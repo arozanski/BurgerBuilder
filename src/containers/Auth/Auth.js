@@ -38,30 +38,42 @@ class Auth extends Component {
         }
     }
 
-    checkRules (value, rules) {
-        let valid = true;
-
+    checkValidity = (value, rules) => {
+        let isValid = true;
+        
+        if (!rules) {
+            return true;
+        }
+        
         if (rules.required) {
-            valid = value.trim() !== '' && valid;
+            isValid = value.trim() !== '' && isValid;
         }
 
         if (rules.minLength) {
-            valid = value.length >= rules.minLength && valid;
-        }
-
-        if (rules.maxLength) {
-            valid = value.length <= rules.maxLength && valid;
+            isValid = value.length >= rules.minLength && isValid;
         }
 
         if (rules.isEmail) {
-
+            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+            
+            isValid = pattern.test(value) && isValid;
         }
 
-        return valid;
+        return isValid;
     }
 
-    onChangeHandler = () => {
+    onChangeHandler = (event, name) => {
+        const udpatedControls = {
+            ...this.state.controls,
+            [name]: {
+                ...this.state.controls[name],
+                value: event.target.value,
+                valid: this.checkValidity(event.target.value, this.state.controls[name].rules),
+                touched: true
+            }
+        }
 
+        this.setState({controls: udpatedControls});
     }
     
     render () {
