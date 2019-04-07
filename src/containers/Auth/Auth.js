@@ -4,6 +4,7 @@ import Button from '../../components/UI/Button/Button';
 import styles from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Auth extends Component {
     state = {
@@ -103,7 +104,7 @@ class Auth extends Component {
             });
         }
 
-        const form = formElements.map(element => {
+        let form = formElements.map(element => {
             return <Input 
                         key={element.id}
                         elementType={element.config.elementType}
@@ -115,9 +116,20 @@ class Auth extends Component {
                         change={(event) => this.onChangeHandler(event, element.id)} />
         });
 
+        if (this.props.loading) {
+            return <Loader />;
+        }
+
+        let errorMsg = null;
+
+        if (this.props.error) {
+            errorMsg = <p>{this.props.error.message}</p>
+        }
+
         return (
             <div className={styles.Auth}>
-                <h3>{header}</h3> 
+                <h3>{header}</h3>
+                {errorMsg} 
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button type="Success">Submit</Button>
@@ -128,10 +140,17 @@ class Auth extends Component {
     };
 }
 
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         onAuth: (email, password, isSignin) => dispatch(actions.auth(email, password, isSignin))
     }
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

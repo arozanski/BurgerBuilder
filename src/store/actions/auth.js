@@ -22,6 +22,20 @@ export const authFail = (error) => {
     }
 }
 
+export const signOut = () => {
+    return {
+        type: actionsTypes.AUTH_SIGNOUT
+    }
+}
+
+export const checkAuthTimeout = (expTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(signOut());
+        }, expTime * 1000);
+    }
+}
+
 export const auth = (email, password, isSignin) => {
     return dispatch => {
         dispatch(authStart());
@@ -37,9 +51,10 @@ export const auth = (email, password, isSignin) => {
         axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/${urlPartial}?key=AIzaSyCPrvl8L0hcTD8ahW9dc4wwWYXZc_k_jE0`, authData)
             .then(response => {
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
+                dispatch(checkAuthTimeout(response.data.expiresIn));
             })
             .catch(error => {
-                dispatch(authFail(error));
+                dispatch(authFail(error.response.data.error));
             });
     }
 }
