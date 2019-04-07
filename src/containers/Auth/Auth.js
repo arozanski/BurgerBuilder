@@ -5,6 +5,7 @@ import styles from './Auth.module.css';
 import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import Loader from '../../components/UI/Loader/Loader';
+import { Redirect } from 'react-router-dom';
 
 class Auth extends Component {
     state = {
@@ -97,6 +98,10 @@ class Auth extends Component {
         const header = this.state.isSignin ? 'Sign in' : 'Sign up';
         const labelPartial = this.state.isSignin ? 'sign up' : 'sign in';
 
+        if (this.props.isAuth) {
+            return <Redirect to ="/" />;
+        }
+
         for (let key in this.state.controls) {
             formElements.push({
                 id: key,
@@ -143,7 +148,8 @@ class Auth extends Component {
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuth: !!state.auth.idToken
     }
 }
 
