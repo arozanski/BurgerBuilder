@@ -9,3 +9,7 @@ export {
     orderInit,
     fetchOrders
 } from './oder';
+
+export {
+    auth,
+} from './auth';
