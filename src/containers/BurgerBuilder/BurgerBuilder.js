@@ -103,7 +103,7 @@ class BuilderBuilder extends Component {
                     purchaseable={this.updatePurchaseState(this.props.ings)}
                     ingredientAdded={this.props.onIngredientAdded} 
                     ingredientRemoved={this.props.onIngredientRemoved}
-                    isAuth={this.state.isAuth}/>
+                    isAuth={this.props.isAuth}/>
             </Aux>
         );
     }    
@@ -114,7 +114,7 @@ const mapStateToProps = state => {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         error: state.burgerBuilder.error,
-        iaAuth: !!state.auth.idToken
+        isAuth: !!state.auth.idToken
     }
 }
 
