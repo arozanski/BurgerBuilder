@@ -92,6 +92,12 @@ class Auth extends Component {
             return { isSignin: !this.state.isSignin };
         });
     }
+
+    componentDidMount () {
+        if (!this.props.creatingOrder && this.props.authRedirectPath !== '/') {
+            this.props.onAuthRedirectPath();
+        }
+    }
     
     render () {
         const formElements = [];
@@ -99,7 +105,7 @@ class Auth extends Component {
         const labelPartial = this.state.isSignin ? 'sign up' : 'sign in';
 
         if (this.props.isAuth) {
-            return <Redirect to ="/" />;
+            return <Redirect to ={this.props.authRedirectPath} />;
         }
 
         for (let key in this.state.controls) {
@@ -149,13 +155,16 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
-        isAuth: !!state.auth.idToken
+        isAuth: !!state.auth.idToken,
+        creatingOrder: state.burgerBuilder.creatingOrder,
+        authRedirectPath: state.auth.authRedirectPath
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password, isSignin) => dispatch(actions.auth(email, password, isSignin))
+        onAuth: (email, password, isSignin) => dispatch(actions.auth(email, password, isSignin)),
+        onAuthRedirectPath: () => dispatch(actions.authSetRedirect('/'))
     }
 }
 

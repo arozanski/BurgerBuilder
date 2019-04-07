@@ -59,3 +59,9 @@ export const auth = (email, password, isSignin) => {
     }
 }
 
+export const authSetRedirect = (path) => {
+    return {
+        type: actionsTypes.AUTH_SET_REDIRECT,
+        path: path
+    }
+};
