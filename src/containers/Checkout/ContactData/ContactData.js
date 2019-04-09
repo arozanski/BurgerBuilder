@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
 import { updateObject } from '../../../shared/utility';
+import { validate } from '../../../shared/formValidation';
 
 class ContactData extends Component {
     state = {
@@ -79,24 +80,6 @@ class ContactData extends Component {
         formIsValid: false
     }
 
-    checkRules (value, rules) {
-        let valid = true;
-
-        if (rules.required) {
-            valid = value.trim() !== '' && valid;
-        }
-
-        if (rules.minLength) {
-            valid = value.length >= rules.minLength && valid;
-        }
-
-        if (rules.maxLength) {
-            valid = value.length <= rules.maxLength && valid;
-        }
-
-        return valid;
-    }
-
     orderHandler = (event) => {
         event.preventDefault();
 
@@ -113,15 +96,13 @@ class ContactData extends Component {
             userId: this.props.userId
         }
 
-        console.log(order);
-
         this.props.onBurgerOrder(order, this.props.token);
     }
 
     onChangeHandler = (event, elementId) => {
         const elementData = updateObject(this.state.orderForm[elementId], {
             value: event.target.value,
-            valid: this.checkRules(event.target.value, this.state.orderForm[elementId].rules),
+            valid: validate(event.target.value, this.state.orderForm[elementId].rules),
             touched: true
         });
 

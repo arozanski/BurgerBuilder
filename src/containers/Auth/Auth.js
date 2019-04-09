@@ -6,6 +6,7 @@ import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import Loader from '../../components/UI/Loader/Loader';
 import { Redirect } from 'react-router-dom';
+import { validate } from '../../shared/formValidation';
 
 class Auth extends Component {
     state = {
@@ -43,37 +44,13 @@ class Auth extends Component {
         isSignin: true
     }
 
-    checkValidity = (value, rules) => {
-        let isValid = true;
-        
-        if (!rules) {
-            return true;
-        }
-        
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.isEmail) {
-            const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-            
-            isValid = pattern.test(value) && isValid;
-        }
-
-        return isValid;
-    }
-
     onChangeHandler = (event, name) => {
         const udpatedControls = {
             ...this.state.controls,
             [name]: {
                 ...this.state.controls[name],
                 value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.state.controls[name].rules),
+                valid: validate(event.target.value, this.state.controls[name].rules),
                 touched: true
             }
         }
