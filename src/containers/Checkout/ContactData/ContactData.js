@@ -6,6 +6,7 @@ import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { updateObject } from '../../../shared/utility';
 
 class ContactData extends Component {
     state = {
@@ -118,13 +119,15 @@ class ContactData extends Component {
     }
 
     onChangeHandler = (event, elementId) => {
-        const formData = {...this.state.orderForm};
-        const elementData = {...formData[elementId]};
+        const elementData = updateObject(this.state.orderForm[elementId], {
+            value: event.target.value,
+            valid: this.checkRules(event.target.value, this.state.orderForm[elementId].rules),
+            touched: true
+        });
 
-        elementData.value = event.target.value;
-        elementData.valid = this.checkRules(elementData.value, elementData.rules);
-        elementData.touched = true;
-        formData[elementId] = elementData;
+        const formData = updateObject(this.state.orderForm, {
+            [elementId] : elementData
+        });
 
         let formIsValid = true;
 
