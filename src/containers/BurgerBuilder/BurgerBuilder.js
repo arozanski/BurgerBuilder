@@ -10,7 +10,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import {connect} from 'react-redux';
 import * as actionTypes from '../../store/actions/index';
 
-class BuilderBuilder extends Component {
+export class BurgerBuilder extends Component {
     state = {
         purchasing: false,
         loading: false
@@ -128,4 +128,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BuilderBuilder, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
